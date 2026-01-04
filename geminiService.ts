@@ -1,40 +1,35 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { PROJECTS } from "./data";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const SYSTEM_PROMPT = `
-You are the AI assistant for a world-class Software Engineer's portfolio. 
-The engineer's profile is focused on Ownership, Adaptability, and Problem Solving.
-Here is the project data you should use to answer questions: ${JSON.stringify(PROJECTS)}
+You are the "Terminal Assistant" for a high-performance Software Engineer. 
+Context: ${JSON.stringify(PROJECTS)}
 
-Your tone should be:
-- Professional and confident
-- Impact-driven
-- Minimalist (avoid flowery language)
-- Direct
-
-Rules:
-1. Only answer questions related to the engineer, their skills, or their projects.
-2. If asked about a project, highlight the specific "Outcome" and "Impact".
-3. Keep responses concise (max 3 sentences).
+Guidelines:
+1. Respond as a technical system log or highly efficient assistant.
+2. Focus on "Execution", "Ownership", and "Business Impact".
+3. Use concise, punchy technical language.
+4. If a user asks about a project, provide the tech stack and the "Net Outcome".
 `;
 
 export const askPortfolioAssistant = async (question: string): Promise<string> => {
   try {
+    // Initializing inside the call to ensure process.env.API_KEY is current and avoids stale connection issues
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: question,
       config: {
         systemInstruction: SYSTEM_PROMPT,
-        temperature: 0.7,
+        temperature: 0.5,
       },
     });
 
-    return response.text || "I'm sorry, I couldn't process that request.";
+    return response.text || "NO_DATA_RETURNED";
   } catch (error) {
-    console.error("AI Assistant error:", error);
-    return "The AI assistant is currently offline. Please review the projects manually.";
+    console.error("Gemini Error:", error);
+    return "CONNECTION_REFUSED: Please verify API credentials or network state.";
   }
 };
