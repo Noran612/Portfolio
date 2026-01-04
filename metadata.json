@@ -1,0 +1,8 @@
+{
+  "name": "Software Engineer Portfolio - Ownership Driven",
+  "description": "A professional, minimal portfolio highlighting end-to-end software engineering projects, ownership, and impact-driven problem solving.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
