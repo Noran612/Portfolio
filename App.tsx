@@ -74,10 +74,19 @@ const FloatingTerminal: React.FC = () => {
 
     const currentQuery = query;
     setQuery('');
+    
+    // Add user question to history immediately
+    setHistory(prev => [...prev, { q: currentQuery, a: '' }]);
     setIsLoading(true);
     
     const answer = await askPortfolioAssistant(currentQuery);
-    setHistory(prev => [...prev, { q: currentQuery, a: answer }]);
+    
+    // Update the last entry with the answer
+    setHistory(prev => {
+      const updated = [...prev];
+      updated[updated.length - 1] = { q: currentQuery, a: answer };
+      return updated;
+    });
     setIsLoading(false);
   };
 
@@ -111,17 +120,32 @@ const FloatingTerminal: React.FC = () => {
                   <span className="text-emerald-500">user@atlas:~$</span>
                   <span className="text-zinc-100">{item.q}</span>
                 </div>
-                <div className="flex gap-2 pl-4 border-l border-emerald-500/20">
-                  <span className="text-zinc-500">[assistant]:</span>
-                  <span className="text-zinc-400 italic">{item.a}</span>
-                </div>
+                {item.a && (
+                  <div className="flex gap-2 pl-4 border-l border-emerald-500/20">
+                    <span className="text-zinc-500">[assistant]:</span>
+                    <span className="text-zinc-400 italic">{item.a}</span>
+                  </div>
+                )}
               </div>
             ))}
             
             {isLoading && (
-              <div className="flex gap-2">
-                <span className="text-emerald-500">user@atlas:~$</span>
-                <span className="text-zinc-100 animate-pulse cursor">_</span>
+              <div className="space-y-2 animate-in fade-in duration-300">
+                <div className="flex gap-2">
+                  <span className="text-emerald-500">user@atlas:~$</span>
+                  <span className="text-zinc-100">{history[history.length]?.q || "..."}</span>
+                </div>
+                <div className="flex gap-2 pl-4 border-l border-emerald-500/20">
+                  <span className="text-zinc-500">[assistant]:</span>
+                  <span className="text-zinc-400 italic flex items-center gap-1">
+                    Processing query
+                    <span className="flex gap-1">
+                      <span className="w-1 h-1 bg-emerald-500 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></span>
+                      <span className="w-1 h-1 bg-emerald-500 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></span>
+                      <span className="w-1 h-1 bg-emerald-500 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></span>
+                    </span>
+                  </span>
+                </div>
               </div>
             )}
           </div>
@@ -148,10 +172,10 @@ const App: React.FC = () => {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-40 px-6 py-6 lg:px-12 flex justify-between items-center pointer-events-none">
         <div className="pointer-events-auto">
-          <span className="text-emerald-500 font-black tracking-tighter text-2xl">ATLAS<span className="text-white">.01</span></span>
+          <span className="text-emerald-500 font-black tracking-tighter text-2xl">Noran Muhammad<span className="text-white">.Coder</span></span>
         </div>
         <div className="pointer-events-auto flex gap-8">
-          {['About', 'Projects', 'Skills', 'Contact'].map(link => (
+          {['About', 'Education', 'Hackathons', 'Projects', 'Skills', 'Contact'].map(link => (
             <a key={link} href={`#${link.toLowerCase()}`} className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-emerald-400 transition-colors">
               {link}
             </a>
@@ -164,7 +188,7 @@ const App: React.FC = () => {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="mb-8 inline-flex items-center gap-3 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-500 text-[10px] font-bold uppercase tracking-widest">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            Active Portfolio // v2024.Q4
+            Active Portfolio 
           </div>
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none mb-10 text-white">
             OWNERSHIP<br />
@@ -188,6 +212,221 @@ const App: React.FC = () => {
             <div>
               <h4 className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em] mb-4">Reliability</h4>
               <p className="text-sm text-zinc-500 leading-relaxed">Production-grade builds by default. I focus on modularity, state management, and scalability from the first commit.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Education & Certificates */}
+      <section id="education" className="py-32 px-6 lg:px-12 border-y border-white/5 bg-[#080808]">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-xl">
+              <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Education & Credentials</h2>
+              <p className="text-zinc-500">Academic foundation and professional certifications that drive technical excellence.</p>
+            </div>
+            <div className="hidden md:block">
+              <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">Verified Academic Records</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Education */}
+            <div className="glass-panel rounded-xl p-8 group hover:border-emerald-500/50 transition-all duration-500">
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="bg-emerald-500 text-[10px] font-black text-black px-3 py-1 rounded uppercase tracking-widest">
+                    Education
+                  </span>
+                  <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-widest">Verified</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Computer Science Graduate</h3>
+                <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest mb-4">Technion - Israel Institute of Technology</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-300 font-medium">GPA</span>
+                  <span className="text-emerald-400 font-bold">85/100</span>
+                </div>
+                <div className="border-t border-white/5 pt-4">
+                  <p className="text-xs text-zinc-400 mb-4">Comprehensive curriculum covering algorithms, data structures, software engineering, and systems design.</p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-1 rounded tracking-tighter">Algorithms</span>
+                    <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-1 rounded tracking-tighter">Data Structures</span>
+                    <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-1 rounded tracking-tighter">Software Engineering</span>
+                    <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-1 rounded tracking-tighter">Systems Design</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-white/5">
+                <div className="flex gap-4">
+                  <a href="#" className="text-xs font-bold text-emerald-500 hover:text-emerald-400 transition-colors flex items-center gap-2">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Degree Certificate
+                  </a>
+                  <a href="#" className="text-xs font-bold text-emerald-500 hover:text-emerald-400 transition-colors flex items-center gap-2">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Grade Sheet
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Certificates */}
+            <div className="glass-panel rounded-xl p-8 group hover:border-emerald-500/50 transition-all duration-500">
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="bg-zinc-700 text-[10px] font-black text-white px-3 py-1 rounded uppercase tracking-widest">
+                    Certificates
+                  </span>
+                  <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Coming Soon</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Professional Certifications</h3>
+                <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest mb-4">Industry Recognized Credentials</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="border border-zinc-800 rounded-lg p-4 bg-zinc-900/30">
+                  <p className="text-sm text-zinc-400 mb-3">Currently pursuing industry certifications to complement academic foundation:</p>
+                  <ul className="space-y-2 text-xs text-zinc-500">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-500/50 rounded-full"></div>
+                      AWS Cloud Practitioner
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-500/50 rounded-full"></div>
+                      Google Cloud Professional
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-500/50 rounded-full"></div>
+                      Microsoft Azure Fundamentals
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-white/5">
+                <p className="text-[10px] text-zinc-600 uppercase tracking-widest">Certifications will be added upon completion</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Hackathons */}
+      <section id="hackathons" className="py-32 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-xl">
+              <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Hackathon Victories</h2>
+              <p className="text-zinc-500">High-pressure development showcasing rapid prototyping and innovative problem-solving under tight deadlines.</p>
+            </div>
+            <div className="hidden md:block">
+              <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">Competition Results // Live Demos</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Microsoft Hackathon */}
+            <div className="glass-panel rounded-xl p-8 group hover:border-emerald-500/50 transition-all duration-500">
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="bg-blue-500 text-[10px] font-black text-white px-3 py-1 rounded uppercase tracking-widest">
+                    Microsoft Hackathon
+                  </span>
+                  <span className="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Completed</span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Enterprise Solution Development</h3>
+                <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest mb-4">Microsoft Technology Stack</p>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <p className="text-zinc-400 text-sm leading-relaxed">
+                  Developed a comprehensive enterprise solution leveraging Microsoft's cloud ecosystem. 
+                  Focused on scalable architecture and seamless integration with existing business workflows.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">Azure</span>
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">.NET</span>
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">Power Platform</span>
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">Teams SDK</span>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/5 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Impact Metrics</span>
+                  <span className="text-[9px] font-bold text-blue-500 uppercase tracking-widest">Demo Ready</span>
+                </div>
+                <p className="text-xs text-zinc-300 font-medium leading-snug">
+                  <span className="text-emerald-500/50 mr-1">»</span> 
+                  Built enterprise-grade solution with real-time collaboration features and automated workflow integration.
+                </p>
+              </div>
+            </div>
+
+            {/* MedTech Hackathon */}
+            <div className="glass-panel rounded-xl p-8 group hover:border-emerald-500/50 transition-all duration-500">
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="bg-red-500 text-[10px] font-black text-white px-3 py-1 rounded uppercase tracking-widest">
+                    MedTech Hackathon
+                  </span>
+                  <span className="text-[9px] font-bold text-red-400 uppercase tracking-widest">Healthcare Innovation</span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Prostate Examination Device</h3>
+                <p className="text-zinc-400 text-sm font-medium uppercase tracking-widest mb-4">Medical Device Engineering</p>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <p className="text-zinc-400 text-sm leading-relaxed">
+                  Engineered a medical device prototype for prostate examinations, combining hardware sensors 
+                  with intelligent software for enhanced diagnostic accuracy and patient comfort.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">IoT Sensors</span>
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">Python</span>
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">Medical Imaging</span>
+                  <span className="font-mono text-[9px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded tracking-tighter">Data Analytics</span>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/5 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Medical Impact</span>
+                  <span className="text-[9px] font-bold text-red-500 uppercase tracking-widest">Prototype Built</span>
+                </div>
+                <p className="text-xs text-zinc-300 font-medium leading-snug">
+                  <span className="text-emerald-500/50 mr-1">»</span> 
+                  Developed functional prototype addressing critical healthcare diagnostics with improved precision and patient experience.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Section */}
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/5 pt-12">
+            <div className="text-center">
+              <div className="text-3xl font-black text-emerald-500 mb-2">2</div>
+              <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Hackathons Completed</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-black text-blue-400 mb-2">48</div>
+              <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Hours Avg Duration</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-black text-red-400 mb-2">1</div>
+              <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Medical Device Built</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-black text-zinc-400 mb-2">100%</div>
+              <div className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Demo Success Rate</div>
             </div>
           </div>
         </div>
@@ -243,19 +482,17 @@ const App: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-12">READY TO<br/>SHIP.</h2>
           <div className="flex flex-col items-center gap-8">
-            <a href="mailto:contact@engineer.me" className="text-xl md:text-3xl font-medium text-emerald-400 border-b border-emerald-400/30 pb-2 hover:text-white hover:border-white transition-all">
-              hello@atlas.dev
+            <a href="mailto:noranomar784@gmail.com" className="text-xl md:text-3xl font-medium text-emerald-400 border-b border-emerald-400/30 pb-2 hover:text-white hover:border-white transition-all">
+              noranomar784@gmail.com
             </a>
             <div className="flex gap-10 mt-8">
-              {['GitHub', 'LinkedIn', 'Twitter'].map(link => (
-                <a key={link} href="#" className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 hover:text-emerald-500 transition-colors">
-                  {link}
-                </a>
-              ))}
+              <a href="https://github.com/Noran612" className="text-[30px] font-black uppercase tracking-[0.3em] text-emerald-400 hover:text-emerald-500 transition-colors">
+                GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/noran-omar-muhammed-7bb17620b/" className="text-[30px] font-black uppercase tracking-[0.3em] text-emerald-400 hover:text-emerald-500 transition-colors">
+                LinkedIn
+              </a>
             </div>
-          </div>
-          <div className="mt-40 text-[9px] font-mono text-zinc-700 uppercase tracking-[0.5em]">
-            © 2024 ATLAS PROJECT // NO BUZZWORDS // PURE EXECUTION
           </div>
         </div>
       </footer>

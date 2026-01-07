@@ -12,7 +12,7 @@ export const PROJECTS: Project[] = [
     challenges: 'Designing a system that feels local and trustworthy while ensuring real-time updates for thousands of users without performance degradation.',
     outcome: 'A centralized hub for events that outperforms traditional social ads by providing intent-based discovery and higher user retention.',
     impactLabel: 'Product Ownership',
-    imageUrl: 'https://picsum.photos/seed/amassina/800/450'
+    imageUrl: 'Amassina.png'
   },
   {
     id: 'mindmesh',
@@ -24,7 +24,7 @@ export const PROJECTS: Project[] = [
     challenges: 'Ensuring low-latency real-time collaboration while integrating AI guidance that is helpful but avoids providing "answers" directly, maintaining academic integrity.',
     outcome: 'Increased student interaction by providing a purpose-built space that scales academic support through peer and AI collaboration.',
     impactLabel: 'UX & AI Integration',
-    imageUrl: 'https://picsum.photos/seed/mindmesh/800/450'
+    imageUrl: 'MindMesh.png'
   },
   {
     id: 'ecommerce',
@@ -36,7 +36,7 @@ export const PROJECTS: Project[] = [
     challenges: 'Balancing the high-touch "handmade" feel with professional e-commerce reliability, specifically managing unique inventory for one-of-a-kind items.',
     outcome: 'Automated order processing and professionalized the brand, resulting in a 40% increase in operational efficiency for the business owner.',
     impactLabel: 'Full-Stack Delivery',
-    imageUrl: 'https://picsum.photos/seed/knitting/800/450'
+    imageUrl: 'ecommerceKnitting.png'
   },
   {
     id: 'mri-classification',
@@ -48,19 +48,7 @@ export const PROJECTS: Project[] = [
     challenges: 'Self-learning complex neuroanatomy and medical imaging standards within a tight deadline while optimizing a model for a relatively small dataset.',
     outcome: 'Achieved ~95% classification accuracy, demonstrating the ability to rapidly master complex new domains and deliver research-level results.',
     impactLabel: 'Fast Learning & ML',
-    imageUrl: 'https://picsum.photos/seed/mri/800/450'
-  },
-  {
-    id: 'minesweeper',
-    title: 'Advanced Minesweeper',
-    subtitle: 'State Management Showcase',
-    problem: 'Classic games provide a rigorous test of modular UI design and efficient state management patterns in modern frontend frameworks.',
-    whatIBuilt: 'A fully configurable Minesweeper clone with custom difficulty, board sizes, and optimized rendering logic.',
-    tech: ['React', 'TypeScript', 'Tailwind CSS'],
-    challenges: 'Managing complex recursive cell reveals and flag states without causing unnecessary re-renders in large board configurations.',
-    outcome: 'A clean, modular codebase that serves as a benchmark for complex React state patterns and UI performance.',
-    impactLabel: 'Code Clarity',
-    imageUrl: 'https://picsum.photos/seed/minesweeper/800/450'
+    imageUrl: 'MRI.jpg'
   },
   {
     id: 'drone-simulation',
@@ -72,7 +60,7 @@ export const PROJECTS: Project[] = [
     challenges: 'Learning 3D modeling and physics engine parameters from scratch in 48 hours to provide a viable simulation environment for the team.',
     outcome: 'Delivered a functional simulation that allowed the engineering team to validate sensor placement without physical hardware.',
     impactLabel: 'Adaptability',
-    imageUrl: 'https://picsum.photos/seed/drone/800/450'
+    imageUrl: 'forest.png'
   },
   {
     id: 'prostate-exam',
@@ -84,7 +72,7 @@ export const PROJECTS: Project[] = [
     challenges: 'Synthesizing medical requirements with hardware constraints and presenting a high-impact solution to a panel of healthcare experts.',
     outcome: 'Reached the mid-finals of the hackathon, recognized for innovation, leadership, and potential healthcare impact.',
     impactLabel: 'Leadership & Innovation',
-    imageUrl: 'https://picsum.photos/seed/medical/800/450'
+    imageUrl: 'med-tech.jpg'
   }
 ];
 
