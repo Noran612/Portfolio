@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
     const isProduction = mode === 'production';
     
     return {
-      base: isProduction ? '/Portfolio/' : '/',
+      base:  '/',
       build: {
         outDir: 'dist',
         rollupOptions: {
